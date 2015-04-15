@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\Jose\AndroidStudioProjects\Collisions\app\libs\RobotLibrary.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="31c82e5e9535de3e1b78f7c14342c13f2cdc59ee">
+        <dex dex="C:\Users\Jose\AndroidStudioProjects\Collisions\app\build\intermediates\pre-dexed\debug\RobotLibrary-6641b4a2e83a13cb6aa038d5fcfe700fd290527f.jar" />
+    </item>
+
+</items>
