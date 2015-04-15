@@ -26,10 +26,12 @@ public final class R {
         public static final int power_y_value=0x7f050007;
         public static final int right_button=0x7f05000d;
         public static final int speed_value=0x7f050008;
-        public static final int sphero_connection_view=0x7f05000f;
+        public static final int sphero_connection_view=0x7f050011;
         public static final int stop_button=0x7f05000a;
         public static final int time_stamp_value=0x7f050009;
         public static final int up_button=0x7f05000b;
+        public static final int velocityButton=0x7f050010;
+        public static final int velocityInput=0x7f05000f;
     }
     public static final class layout {
         public static final int main=0x7f030000;

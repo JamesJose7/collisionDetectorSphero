@@ -163,6 +163,22 @@
             android:layout_alignTop="@id/stop_button"
             android:layout_marginRight="10dp"
             android:onClick="onClick" />
+
+        <EditText
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:id="@+id/velocityInput" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Set velocity"
+            android:id="@+id/velocityButton"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@+id/velocityInput"
+            android:onClick="onClick"/>
     </RelativeLayout>
 
     <orbotix.view.connection.SpheroConnectionView

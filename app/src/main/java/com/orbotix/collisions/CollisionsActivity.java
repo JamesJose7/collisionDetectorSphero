@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Random;
 
@@ -36,6 +38,8 @@ public class CollisionsActivity extends Activity {
     private boolean isRight;
 
     private int mCurrentDirection;
+    private float mVelocity;
+    private EditText velocityInput;
 
     private Sphero mRobot;
 
@@ -48,6 +52,8 @@ public class CollisionsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         findViewById(R.id.back_layout).requestFocus();
+
+        velocityInput = (EditText) findViewById(R.id.velocityInput);
 
         // initialize value labels
         mAccelXValueLabel = (TextView) findViewById(R.id.accel_x_value);
@@ -164,7 +170,6 @@ public class CollisionsActivity extends Activity {
 
         Random randomGenerator = new Random();
         int randomNumber;
-        float velocity = 1f;
 
         mRobot.stop();
 
@@ -174,28 +179,28 @@ public class CollisionsActivity extends Activity {
             float[] directions = {90f, 180f, 270f};
             randomNumber = randomGenerator.nextInt(directions.length);
 
-            mRobot.drive(directions[randomNumber], velocity);
+            mRobot.drive(directions[randomNumber], mVelocity);
             mCurrentDirection = (int) directions[randomNumber];
         } else if(mCurrentDirection == 180) {
             //isDown
             float[] directions = {0f, 90f, 270f};
             randomNumber = randomGenerator.nextInt(directions.length);
 
-            mRobot.drive(directions[randomNumber], velocity);
+            mRobot.drive(directions[randomNumber], mVelocity);
             mCurrentDirection = (int) directions[randomNumber];
         } else if (mCurrentDirection == 90) {
             //isRight
             float[] directions = {0f, 180f, 270f};
             randomNumber = randomGenerator.nextInt(directions.length);
 
-            mRobot.drive(directions[randomNumber], velocity);
+            mRobot.drive(directions[randomNumber], mVelocity);
             mCurrentDirection = (int) directions[randomNumber];
         } else if (mCurrentDirection == 270) {
             //isLeft
             float[] directions = {0f, 90f, 180f};
             randomNumber = randomGenerator.nextInt(directions.length);
 
-            mRobot.drive(directions[randomNumber], velocity);
+            mRobot.drive(directions[randomNumber], mVelocity);
             mCurrentDirection = (int) directions[randomNumber];
         }
 
@@ -230,6 +235,10 @@ public class CollisionsActivity extends Activity {
                 mRobot.drive(270f, 0.2f);
                 mCurrentDirection = 270;
                 break;
+
+            case R.id.velocityButton:
+                mVelocity = Float.parseFloat(velocityInput.getText().toString());
+                Toast.makeText(this, "velocity set to " + mVelocity, Toast.LENGTH_LONG).show();
 
             default:
                 mRobot.stop();
