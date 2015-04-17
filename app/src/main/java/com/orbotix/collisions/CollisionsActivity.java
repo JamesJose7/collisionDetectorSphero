@@ -2,44 +2,41 @@ package com.orbotix.collisions;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.os.Handler;
 
 import java.util.Random;
 
 import orbotix.robot.base.CollisionDetectedAsyncData;
 import orbotix.robot.base.CollisionDetectedAsyncData.CollisionPower;
 import orbotix.robot.base.Robot;
-import orbotix.robot.sensor.Acceleration;
+import orbotix.robot.sensor.LocatorData;
 import orbotix.sphero.CollisionListener;
 import orbotix.sphero.ConnectionListener;
+import orbotix.sphero.LocatorListener;
 import orbotix.sphero.Sphero;
 import orbotix.view.connection.SpheroConnectionView;
 
 public class CollisionsActivity extends Activity {
 
-    private TextView mAccelXValueLabel;
-    private TextView mAccelYValueLabel;
-    private TextView mAccelZValueLabel;
-    private CheckBox mXAxisCheckBox;
-    private CheckBox mYAxisCheckBox;
     private TextView mPowerXValueLabel;
     private TextView mPowerYValueLabel;
-    private TextView mSpeedValueLabel;
-    private TextView mTimestampLabel;
+    private TextView mVelocityXLabel;
+    private TextView mVelocityYLabel;
 
-    private boolean isUp;
-    private boolean isLeft;
-    private boolean isDown;
-    private boolean isRight;
+    protected Handler mHandler = new Handler();
 
     private int mCurrentDirection;
     private float mVelocity;
     private EditText velocityInput;
+
+    private float mVelocityX;
+    private float mVelocityY;
+    private boolean isStill = false;
+    private boolean startedCornerProof;
 
     private Sphero mRobot;
 
@@ -53,35 +50,21 @@ public class CollisionsActivity extends Activity {
         setContentView(R.layout.main);
         findViewById(R.id.back_layout).requestFocus();
 
+
         velocityInput = (EditText) findViewById(R.id.velocityInput);
 
         // initialize value labels
-        mAccelXValueLabel = (TextView) findViewById(R.id.accel_x_value);
-        mAccelXValueLabel.setText("0.0");
-
-        mAccelYValueLabel = (TextView) findViewById(R.id.accel_y_value);
-        mAccelYValueLabel.setText("0.0");
-
-        mAccelZValueLabel = (TextView) findViewById(R.id.accel_z_value);
-        mAccelZValueLabel.setText("0.0");
-
-        mXAxisCheckBox = (CheckBox) findViewById(R.id.axis_x_checkbox);
-        mXAxisCheckBox.setChecked(false);
-
-        mYAxisCheckBox = (CheckBox) findViewById(R.id.axis_y_checkbox);
-        mYAxisCheckBox.setChecked(false);
-
         mPowerXValueLabel = (TextView) findViewById(R.id.power_x_value);
         mPowerXValueLabel.setText("0.0");
 
         mPowerYValueLabel = (TextView) findViewById(R.id.power_y_value);
         mPowerYValueLabel.setText("0.0");
 
-        mSpeedValueLabel = (TextView) findViewById(R.id.speed_value);
-        mSpeedValueLabel.setText("0.0");
+        mVelocityXLabel = (TextView) findViewById(R.id.velocityX_value);
+        mVelocityXLabel.setText("0 cm/s" );
 
-        mTimestampLabel = (TextView) findViewById(R.id.time_stamp_value);
-        mTimestampLabel.setText(SystemClock.uptimeMillis() + " ms");
+        mVelocityYLabel = (TextView) findViewById(R.id.velocityY_value);
+        mVelocityYLabel.setText("0 cm/s");
 
         mSpheroConnectionView = (SpheroConnectionView) findViewById(R.id.sphero_connection_view);
         mSpheroConnectionView.addConnectionListener(new ConnectionListener() {
@@ -91,6 +74,11 @@ public class CollisionsActivity extends Activity {
                 mRobot = (Sphero) robot;
                 mRobot.getCollisionControl().addCollisionListener(mCollisionListener);
                 mRobot.getCollisionControl().startDetection(45, 45, 100, 100, 100);
+
+                mRobot.setColor(0, 0, 255);
+
+                mRobot.getSensorControl().addLocatorListener(mLocatorListener);
+                mRobot.getSensorControl().setRate(5);
             }
 
             @Override
@@ -126,39 +114,32 @@ public class CollisionsActivity extends Activity {
         }
     }
 
+    private LocatorListener mLocatorListener = new LocatorListener() {
+        @Override
+        public void onLocatorChanged(LocatorData locatorData) {
+
+            mVelocityX = locatorData.getVelocityX();
+            mVelocityY = locatorData.getVelocityY();
+
+            mVelocityXLabel = (TextView) findViewById(R.id.velocityX_value);
+            mVelocityXLabel.setText(mVelocityX + " cm/s");
+
+            mVelocityYLabel = (TextView) findViewById(R.id.velocityY_value);
+            mVelocityYLabel.setText(mVelocityY + " cm/s");
+
+        }
+    };
+
     private final CollisionListener mCollisionListener = new CollisionListener() {
         public void collisionDetected(CollisionDetectedAsyncData collisionData) {
 
             // Update the UI with the collision data
-            Acceleration acceleration = collisionData.getImpactAcceleration();
-            mAccelXValueLabel = (TextView) findViewById(R.id.accel_x_value);
-            mAccelXValueLabel.setText("" + acceleration.x);
-
-            mAccelYValueLabel = (TextView) findViewById(R.id.accel_y_value);
-            mAccelYValueLabel.setText("" + acceleration.y);
-
-            mAccelZValueLabel = (TextView) findViewById(R.id.accel_z_value);
-            mAccelZValueLabel.setText("" + acceleration.z);
-
-            mXAxisCheckBox = (CheckBox) findViewById(R.id.axis_x_checkbox);
-            mXAxisCheckBox.setChecked(collisionData.hasImpactXAxis());
-
-            mYAxisCheckBox = (CheckBox) findViewById(R.id.axis_y_checkbox);
-            mYAxisCheckBox.setChecked(collisionData.hasImpactYAxis());
-
             CollisionPower power = collisionData.getImpactPower();
             mPowerXValueLabel = (TextView) findViewById(R.id.power_x_value);
             mPowerXValueLabel.setText("" + power.x);
 
             mPowerYValueLabel = (TextView) findViewById(R.id.power_y_value);
             mPowerYValueLabel.setText("" + power.y);
-
-            mSpeedValueLabel = (TextView) findViewById(R.id.speed_value);
-            mSpeedValueLabel.setText("" + collisionData.getImpactSpeed());
-
-            mTimestampLabel = (TextView) findViewById(R.id.time_stamp_value);
-            mTimestampLabel.setText(collisionData.getImpactTimeStamp() + " ms");
-
 
             if (power.x > 50 || power.y > 50) {
                 changeDirection();
@@ -173,7 +154,6 @@ public class CollisionsActivity extends Activity {
 
         mRobot.stop();
 
-
         if (mCurrentDirection == 0) {
             //isUp
             float[] directions = {90f, 180f, 270f};
@@ -181,6 +161,9 @@ public class CollisionsActivity extends Activity {
 
             mRobot.drive(directions[randomNumber], mVelocity);
             mCurrentDirection = (int) directions[randomNumber];
+
+            //Color for testing
+            mRobot.setColor(236, 206, 31);
         } else if(mCurrentDirection == 180) {
             //isDown
             float[] directions = {0f, 90f, 270f};
@@ -188,6 +171,9 @@ public class CollisionsActivity extends Activity {
 
             mRobot.drive(directions[randomNumber], mVelocity);
             mCurrentDirection = (int) directions[randomNumber];
+
+            //Color for testing
+            mRobot.setColor(236, 206, 31);
         } else if (mCurrentDirection == 90) {
             //isRight
             float[] directions = {0f, 180f, 270f};
@@ -195,6 +181,9 @@ public class CollisionsActivity extends Activity {
 
             mRobot.drive(directions[randomNumber], mVelocity);
             mCurrentDirection = (int) directions[randomNumber];
+
+            //Color for testing
+            mRobot.setColor(236, 206, 31);
         } else if (mCurrentDirection == 270) {
             //isLeft
             float[] directions = {0f, 90f, 180f};
@@ -202,14 +191,45 @@ public class CollisionsActivity extends Activity {
 
             mRobot.drive(directions[randomNumber], mVelocity);
             mCurrentDirection = (int) directions[randomNumber];
+
+            //Color for testing
+            mRobot.setColor(236, 206, 31);
+        }
+    }
+
+    private void startCheckingCorners() {
+
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startedCornerProof = true;
+                cornerProof();
+                startCheckingCorners();
+            }
+        }, 2000);
+
+    }
+
+    private void cornerProof() {
+
+        //Wait 4 seconds and change ball direction if it doesn't move
+        mRobot.setColor(255, 0, 0);
+
+
+        if (mVelocityX <= 2 && mVelocityY <= 2 && startedCornerProof && isStill) {
+            startedCornerProof = false;
+
+            float[] directions = {0f, 90f, 180f, 270f};
+
+            Random randomGenerator = new Random();
+            int randomNumber = randomGenerator.nextInt(directions.length);
+
+            mRobot.setColor(0, 255, 0);
+            mRobot.drive(directions[randomNumber], mVelocity);
+            mCurrentDirection = (int) directions[randomNumber];
+            Toast.makeText(CollisionsActivity.this, "Corner proof activated", Toast.LENGTH_LONG).show();
         }
 
-
-        /*float[] directions = {0f, 90f, 180f, 270f};
-        Random randomGenerator = new Random();
-        int randomNumber = randomGenerator.nextInt(directions.length);
-
-        mRobot.drive(directions[randomNumber], 02f);*/
 
     }
 
@@ -217,35 +237,43 @@ public class CollisionsActivity extends Activity {
         switch (v.getId()) {
 
             case R.id.up_button:
-                mRobot.drive(0f, 0.2f);
+                mRobot.drive(0f, mVelocity);
                 mCurrentDirection = 0;
                 break;
 
             case R.id.right_button:
-                mRobot.drive(90f, 0.2f);
+                mRobot.drive(90f, mVelocity);
                 mCurrentDirection = 90;
                 break;
 
             case R.id.down_button:
-                mRobot.drive(180f, 0.2f);
+                mRobot.drive(180f, mVelocity);
                 mCurrentDirection = 180;
                 break;
 
             case R.id.left_button:
-                mRobot.drive(270f, 0.2f);
+                mRobot.drive(270f, mVelocity);
                 mCurrentDirection = 270;
                 break;
 
             case R.id.velocityButton:
                 mVelocity = Float.parseFloat(velocityInput.getText().toString());
                 Toast.makeText(this, "velocity set to " + mVelocity, Toast.LENGTH_LONG).show();
+                break;
+
+            case R.id.isStillButton:
+                startedCornerProof = true;
+                if (!isStill) {
+                    startCheckingCorners();
+                    isStill = true;
+                    Toast.makeText(this, "Corner proof activated", Toast.LENGTH_LONG).show();
+                } else if (isStill) {
+                    isStill = false;
+                    Toast.makeText(this, "Corner proof deactivated", Toast.LENGTH_LONG).show();
+                }
 
             default:
                 mRobot.stop();
-                isUp = false;
-                isDown = false;
-                isLeft = false;
-                isRight = false;
                 break;
         }
     }

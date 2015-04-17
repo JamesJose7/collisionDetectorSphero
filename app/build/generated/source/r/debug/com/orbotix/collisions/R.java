@@ -20,18 +20,21 @@ public final class R {
         public static final int axis_x_checkbox=0x7f050004;
         public static final int axis_y_checkbox=0x7f050005;
         public static final int back_layout=0x7f050000;
-        public static final int down_button=0x7f05000c;
-        public static final int left_button=0x7f05000e;
+        public static final int down_button=0x7f05000e;
+        public static final int isStillButton=0x7f050013;
+        public static final int left_button=0x7f050010;
         public static final int power_x_value=0x7f050006;
         public static final int power_y_value=0x7f050007;
-        public static final int right_button=0x7f05000d;
+        public static final int right_button=0x7f05000f;
         public static final int speed_value=0x7f050008;
-        public static final int sphero_connection_view=0x7f050011;
-        public static final int stop_button=0x7f05000a;
+        public static final int sphero_connection_view=0x7f050014;
+        public static final int stop_button=0x7f05000c;
         public static final int time_stamp_value=0x7f050009;
-        public static final int up_button=0x7f05000b;
-        public static final int velocityButton=0x7f050010;
-        public static final int velocityInput=0x7f05000f;
+        public static final int up_button=0x7f05000d;
+        public static final int velocityButton=0x7f050012;
+        public static final int velocityInput=0x7f050011;
+        public static final int velocityX_value=0x7f05000a;
+        public static final int velocityY_value=0x7f05000b;
     }
     public static final class layout {
         public static final int main=0x7f030000;

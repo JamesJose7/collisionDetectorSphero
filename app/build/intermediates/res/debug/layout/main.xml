@@ -108,6 +108,16 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
 
+        <TextView
+            android:id="@+id/velocityX_value"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/velocityY_value"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
 
     <RelativeLayout
@@ -178,6 +188,15 @@
             android:id="@+id/velocityButton"
             android:layout_alignParentBottom="true"
             android:layout_toLeftOf="@+id/velocityInput"
+            android:onClick="onClick"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Corner proof"
+            android:id="@+id/isStillButton"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@id/velocityButton"
             android:onClick="onClick"/>
     </RelativeLayout>
 
