@@ -168,7 +168,7 @@ public class CollisionsActivity extends Activity {
             mPowerYValueLabel = (TextView) findViewById(R.id.power_y_value);
             mPowerYValueLabel.setText("" + power.y);
 
-            if (power.x > 50 || power.y > 50) {
+            if (power.x > 60 || power.y > 60) {
                 changeDirection();
             }
         }
@@ -239,7 +239,7 @@ public class CollisionsActivity extends Activity {
 
     private void cornerProof() {
 
-        //Wait 4 seconds and change ball direction if it doesn't move
+        //Wait 2 seconds and change ball direction if it doesn't move
         mRobot.setColor(255, 0, 0);
 
 
