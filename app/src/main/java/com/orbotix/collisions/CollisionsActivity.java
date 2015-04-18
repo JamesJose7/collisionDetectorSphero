@@ -34,6 +34,7 @@ public class CollisionsActivity extends Activity {
     private int mCurrentDirection;
     private float mVelocity;
     private EditText velocityInput;
+    private int mVelocityPercentage;
 
     private Button mAlwaysMovingButton;
 
@@ -282,8 +283,9 @@ public class CollisionsActivity extends Activity {
                 break;*/
 
             case R.id.velocityButton:
-                mVelocity = Float.parseFloat(velocityInput.getText().toString());
-                Toast.makeText(this, "velocity set to " + mVelocity, Toast.LENGTH_LONG).show();
+                mVelocityPercentage = Integer.parseInt(velocityInput.getText().toString());
+                mVelocity = mVelocityPercentage / 100;
+                Toast.makeText(this, "velocity set to " + mVelocityPercentage + "%", Toast.LENGTH_LONG).show();
                 break;
 
 

@@ -9,12 +9,15 @@
         android:background="@drawable/bg_gradient">
 
         <EditText
-            android:layout_width="50dp"
+            android:layout_width="65dp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"
-            android:id="@+id/velocityInput" />
+            android:id="@+id/velocityInput"
+            android:phoneNumber="true"
+            android:hint="%"
+            android:gravity="center_vertical|center_horizontal" />
 
         <Button
             android:layout_width="200dp"
