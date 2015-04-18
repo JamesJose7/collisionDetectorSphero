@@ -1,8 +1,10 @@
 package com.orbotix.collisions;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,9 +35,11 @@ public class CollisionsActivity extends Activity {
     private float mVelocity;
     private EditText velocityInput;
 
+    private Button mAlwaysMovingButton;
+
     private float mVelocityX;
     private float mVelocityY;
-    private boolean isStill = false;
+    private boolean isStill;
     private boolean startedCornerProof;
 
     private Sphero mRobot;
@@ -50,6 +54,28 @@ public class CollisionsActivity extends Activity {
         setContentView(R.layout.main);
         findViewById(R.id.back_layout).requestFocus();
 
+        isStill = false;
+
+        mAlwaysMovingButton = (Button) findViewById(R.id.isStillButton);
+
+        mAlwaysMovingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!isStill) {
+                    startCheckingCorners();
+                    isStill = true;
+                    Toast.makeText(CollisionsActivity.this, "Corner proof activated", Toast.LENGTH_LONG).show();
+
+                    mAlwaysMovingButton.setBackgroundColor(Color.parseColor("#4000ff00"));
+                }
+                else if (isStill) {
+                    isStill = false;
+                    Toast.makeText(CollisionsActivity.this, "Corner proof deactivated", Toast.LENGTH_LONG).show();
+
+                    mAlwaysMovingButton.setBackgroundColor(Color.parseColor("#40ff0000"));
+                }
+            }
+        });
 
         velocityInput = (EditText) findViewById(R.id.velocityInput);
 
@@ -227,7 +253,6 @@ public class CollisionsActivity extends Activity {
             mRobot.setColor(0, 255, 0);
             mRobot.drive(directions[randomNumber], mVelocity);
             mCurrentDirection = (int) directions[randomNumber];
-            Toast.makeText(CollisionsActivity.this, "Corner proof activated", Toast.LENGTH_LONG).show();
         }
 
 
@@ -236,7 +261,7 @@ public class CollisionsActivity extends Activity {
     public void onClick(View v) {
         switch (v.getId()) {
 
-            case R.id.up_button:
+            /*case R.id.up_button:
                 mRobot.drive(0f, mVelocity);
                 mCurrentDirection = 0;
                 break;
@@ -254,23 +279,13 @@ public class CollisionsActivity extends Activity {
             case R.id.left_button:
                 mRobot.drive(270f, mVelocity);
                 mCurrentDirection = 270;
-                break;
+                break;*/
 
             case R.id.velocityButton:
                 mVelocity = Float.parseFloat(velocityInput.getText().toString());
                 Toast.makeText(this, "velocity set to " + mVelocity, Toast.LENGTH_LONG).show();
                 break;
 
-            case R.id.isStillButton:
-                startedCornerProof = true;
-                if (!isStill) {
-                    startCheckingCorners();
-                    isStill = true;
-                    Toast.makeText(this, "Corner proof activated", Toast.LENGTH_LONG).show();
-                } else if (isStill) {
-                    isStill = false;
-                    Toast.makeText(this, "Corner proof deactivated", Toast.LENGTH_LONG).show();
-                }
 
             default:
                 mRobot.stop();

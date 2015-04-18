@@ -3,207 +3,206 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
-    <LinearLayout
-        android:id="@+id/back_layout"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:descendantFocusability="beforeDescendants"
-        android:focusableInTouchMode="true"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/acceleration_label" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/x_label" />
-
-        <TextView
-            android:id="@+id/accel_x_value"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/y_label" />
-
-        <TextView
-            android:id="@+id/accel_y_value"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/z_label" />
-
-        <TextView
-            android:id="@+id/accel_z_value"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/axis_label" />
-
-        <CheckBox
-            android:id="@+id/axis_x_checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/x_label" />
-
-        <CheckBox
-            android:id="@+id/axis_y_checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/y_label" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/power_label" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/x_label" />
-
-        <TextView
-            android:id="@+id/power_x_value"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/y_label" />
-
-        <TextView
-            android:id="@+id/power_y_value"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/speed_label" />
-
-        <TextView
-            android:id="@+id/speed_value"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/time_stamp_label" />
-
-        <TextView
-            android:id="@+id/time_stamp_value"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/velocityX_value"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/velocityY_value"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
-
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="#00ffffff">
-
-        <Button
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:text="S"
-            android:id="@+id/stop_button"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:onClick="onClick" />
-
-        <Button
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:text="up"
-            android:id="@+id/up_button"
-            android:layout_above="@id/stop_button"
-            android:layout_alignRight="@id/stop_button"
-            android:layout_marginBottom="10dp"
-            android:onClick="onClick" />
-
-        <Button
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:text="down"
-            android:id="@+id/down_button"
-            android:layout_alignRight="@id/stop_button"
-            android:layout_below="@id/stop_button"
-            android:layout_marginTop="10dp"
-            android:onClick="onClick" />
-
-        <Button
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:text="right"
-            android:id="@+id/right_button"
-            android:layout_alignTop="@+id/stop_button"
-            android:layout_toRightOf="@+id/stop_button"
-            android:layout_marginLeft="10dp"
-            android:onClick="onClick" />
-
-        <Button
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:text="left"
-            android:id="@+id/left_button"
-            android:layout_toLeftOf="@id/stop_button"
-            android:layout_alignTop="@id/stop_button"
-            android:layout_marginRight="10dp"
-            android:onClick="onClick" />
+        android:background="@drawable/bg_gradient">
 
         <EditText
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
             android:id="@+id/velocityInput" />
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
             android:text="Set velocity"
             android:id="@+id/velocityButton"
-            android:layout_alignParentBottom="true"
-            android:layout_toLeftOf="@+id/velocityInput"
-            android:onClick="onClick"/>
+            android:layout_below="@id/velocityInput"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:onClick="onClick"
+            android:background="#40ffffff" />
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Corner proof"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:text="Always moving"
             android:id="@+id/isStillButton"
-            android:layout_alignParentBottom="true"
-            android:layout_toLeftOf="@id/velocityButton"
-            android:onClick="onClick"/>
-    </RelativeLayout>
+            android:layout_below="@id/velocityButton"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:onClick="onClick"
+            android:background="#40ffffff" />
 
-    <orbotix.view.connection.SpheroConnectionView
-        android:id="@+id/sphero_connection_view"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="#FFF" />
+        <LinearLayout
+            android:id="@+id/back_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:descendantFocusability="beforeDescendants"
+            android:focusableInTouchMode="true"
+            android:orientation="horizontal"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="100dp"
+            android:weightSum="100">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/powerLayout"
+                android:layout_weight="50">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/power_label"
+                    android:gravity="center_horizontal"
+                    android:layout_marginBottom="10dp"
+                    android:textSize="30sp"
+                    android:textColor="#a4000000" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:weightSum="100"
+                    android:id="@+id/powerXY_values">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="50"
+                        android:gravity="center_horizontal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/x_label"
+                            android:gravity="center_horizontal"
+                            android:textSize="20sp"
+                            android:layout_marginBottom="5dp"
+                            android:textColor="#a4000000" />
+
+                        <TextView
+                            android:id="@+id/power_x_value"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:textColor="#a4000000" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="50"
+                        android:gravity="center_horizontal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/y_label"
+                            android:gravity="center_horizontal"
+                            android:textSize="20sp"
+                            android:layout_marginBottom="5dp"
+                            android:textColor="#a4000000" />
+
+                        <TextView
+                            android:id="@+id/power_y_value"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:textColor="#a4000000" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/velocityLayout"
+                android:layout_weight="50">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/velocity_label"
+                    android:gravity="center_horizontal"
+                    android:layout_marginBottom="10dp"
+                    android:textSize="30sp"
+                    android:textColor="#a4000000" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:weightSum="100"
+                    android:id="@+id/velocityXY_values">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="50"
+                        android:gravity="center_horizontal">
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/x_label"
+                            android:gravity="center_horizontal"
+                            android:textSize="20sp"
+                            android:layout_marginBottom="5dp"
+                            android:textColor="#a4000000" />
+
+                        <TextView
+                            android:id="@+id/velocityX_value"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:textColor="#a4000000" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="50"
+                        android:gravity="center_horizontal">
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/y_label"
+                            android:gravity="center_horizontal"
+                            android:textSize="20sp"
+                            android:layout_marginBottom="5dp"
+                            android:textColor="#a4000000" />
+
+                        <TextView
+                            android:id="@+id/velocityY_value"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:textColor="#a4000000" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <orbotix.view.connection.SpheroConnectionView
+            android:id="@+id/sphero_connection_view"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="#FFF" />
+
+    </RelativeLayout>
 
 </FrameLayout><!-- From: file:/C:/Users/Jose/AndroidStudioProjects/Collisions/app/src/main/res/layout/main.xml -->
