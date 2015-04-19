@@ -284,7 +284,7 @@ public class CollisionsActivity extends Activity {
 
             case R.id.velocityButton:
                 mVelocityPercentage = Integer.parseInt(velocityInput.getText().toString());
-                mVelocity = mVelocityPercentage / 100;
+                mVelocity = (float) mVelocityPercentage / 100;
                 Toast.makeText(this, "velocity set to " + mVelocityPercentage + "%", Toast.LENGTH_LONG).show();
                 break;
 
