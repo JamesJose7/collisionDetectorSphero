@@ -33,15 +33,12 @@ public class CollisionsActivity extends Activity {
 
     private int mCurrentDirection;
     private float mVelocity;
-    private EditText velocityInput;
-    private int mVelocityPercentage;
-
-    private Button mAlwaysMovingButton;
-
     private float mVelocityX;
     private float mVelocityY;
-    private boolean isStill;
-    private boolean startedCornerProof;
+    private boolean isAlwaysMoving;
+
+    private EditText velocityInput;
+    private Button mAlwaysMovingButton;
 
     private Sphero mRobot;
 
@@ -55,23 +52,24 @@ public class CollisionsActivity extends Activity {
         setContentView(R.layout.main);
         findViewById(R.id.back_layout).requestFocus();
 
-        isStill = false;
+        //Decides if the always move feature is activated
+        isAlwaysMoving = false;
 
         mAlwaysMovingButton = (Button) findViewById(R.id.isStillButton);
 
         mAlwaysMovingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!isStill) {
-                    startCheckingCorners();
-                    isStill = true;
-                    Toast.makeText(CollisionsActivity.this, "Corner proof activated", Toast.LENGTH_LONG).show();
+                if (!isAlwaysMoving) {
+                    checkSpheroMovement();
+                    isAlwaysMoving = true;
+                    Toast.makeText(CollisionsActivity.this, "Always moving activated", Toast.LENGTH_LONG).show();
 
                     mAlwaysMovingButton.setBackgroundColor(Color.parseColor("#4000ff00"));
                 }
-                else if (isStill) {
-                    isStill = false;
-                    Toast.makeText(CollisionsActivity.this, "Corner proof deactivated", Toast.LENGTH_LONG).show();
+                else if (isAlwaysMoving) {
+                    isAlwaysMoving = false;
+                    Toast.makeText(CollisionsActivity.this, "Always moving deactivated", Toast.LENGTH_LONG).show();
 
                     mAlwaysMovingButton.setBackgroundColor(Color.parseColor("#40ff0000"));
                 }
@@ -141,10 +139,12 @@ public class CollisionsActivity extends Activity {
         }
     }
 
+    /** Sphero Locator is a firmware feature that provides real-time position and velocity information about the robot. */
     private LocatorListener mLocatorListener = new LocatorListener() {
         @Override
         public void onLocatorChanged(LocatorData locatorData) {
 
+            //Save velocity on variables to check if the Sphero is moving
             mVelocityX = locatorData.getVelocityX();
             mVelocityY = locatorData.getVelocityY();
 
@@ -157,6 +157,7 @@ public class CollisionsActivity extends Activity {
         }
     };
 
+    /** Sphero collision detection is a firmware feature that generates a collision async message when an impact is detected. */
     private final CollisionListener mCollisionListener = new CollisionListener() {
         public void collisionDetected(CollisionDetectedAsyncData collisionData) {
 
@@ -168,12 +169,14 @@ public class CollisionsActivity extends Activity {
             mPowerYValueLabel = (TextView) findViewById(R.id.power_y_value);
             mPowerYValueLabel.setText("" + power.y);
 
+            //Check if Sphero hit a wall
             if (power.x > 60 || power.y > 60) {
                 changeDirection();
             }
         }
     };
 
+    /** Every collision it randomly chooses one of three opposite directions from the one it was currently heading */
     private void changeDirection() {
 
         Random randomGenerator = new Random();
@@ -224,27 +227,27 @@ public class CollisionsActivity extends Activity {
         }
     }
 
-    private void startCheckingCorners() {
+    /** Check every 2 seconds if the Sphero is moving */
+    private void checkSpheroMovement() {
 
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                startedCornerProof = true;
-                cornerProof();
-                startCheckingCorners();
+                changeSpheroDirection();
+                checkSpheroMovement();
             }
         }, 2000);
 
     }
 
-    private void cornerProof() {
+    /** Changes Sphero's direction if its not moving */
+    private void changeSpheroDirection() {
 
         //Wait 2 seconds and change ball direction if it doesn't move
         mRobot.setColor(255, 0, 0);
 
 
-        if (mVelocityX <= 2 && mVelocityY <= 2 && startedCornerProof && isStill) {
-            startedCornerProof = false;
+        if (mVelocityX <= 2 && mVelocityY <= 2 && isAlwaysMoving) {
 
             float[] directions = {0f, 90f, 180f, 270f};
 
@@ -262,30 +265,11 @@ public class CollisionsActivity extends Activity {
     public void onClick(View v) {
         switch (v.getId()) {
 
-            /*case R.id.up_button:
-                mRobot.drive(0f, mVelocity);
-                mCurrentDirection = 0;
-                break;
-
-            case R.id.right_button:
-                mRobot.drive(90f, mVelocity);
-                mCurrentDirection = 90;
-                break;
-
-            case R.id.down_button:
-                mRobot.drive(180f, mVelocity);
-                mCurrentDirection = 180;
-                break;
-
-            case R.id.left_button:
-                mRobot.drive(270f, mVelocity);
-                mCurrentDirection = 270;
-                break;*/
-
+            //Changes Sphero's velocity
             case R.id.velocityButton:
-                mVelocityPercentage = Integer.parseInt(velocityInput.getText().toString());
-                mVelocity = (float) mVelocityPercentage / 100;
-                Toast.makeText(this, "velocity set to " + mVelocityPercentage + "%", Toast.LENGTH_LONG).show();
+                int velocityPercentage = Integer.parseInt(velocityInput.getText().toString());
+                mVelocity = (float) velocityPercentage / 100;
+                Toast.makeText(this, "velocity set to " + velocityPercentage + "%", Toast.LENGTH_LONG).show();
                 break;
 
 
